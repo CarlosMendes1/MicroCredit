@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MicroCredit.Application\MicroCredit.Application.csproj" />
+    <ProjectReference Include="..\MicroCredit.Domain\MicroCredit.Domain.csproj" />
   </ItemGroup>
 
 </Project>

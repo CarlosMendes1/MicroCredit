@@ -7,7 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MicroCredit.Application\MicroCredit.Application.csproj" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MicroCredit.Domain\MicroCredit.Domain.csproj" />
   </ItemGroup>
 
 </Project>

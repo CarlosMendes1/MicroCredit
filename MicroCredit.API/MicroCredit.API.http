@@ -1,6 +1,6 @@
 @MicroCredit.API_HostAddress = http://localhost:5293
 
-GET {{MicroCredit.API_HostAddress}}/weatherforecast/
+POST {{MicroCredit.API_HostAddress}}/register/
 Accept: application/json
 
 ###
