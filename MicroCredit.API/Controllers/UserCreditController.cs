@@ -1,4 +1,6 @@
+using MicroCredit.API.Models;
 using MicroCredit.Application.Services;
+using MicroCredit.Domain.Entities;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,12 +11,14 @@ public class UserCreditController : ControllerBase
     private readonly IMicroCreditService _microCreditService;
     private readonly IUserService _userService;
 
-    public UserCreditController(IMicroCreditService microCreditService)
+    public UserCreditController(IMicroCreditService microCreditService, IUserService userService)
     {
         _microCreditService = microCreditService;
+        _userService = userService;
     }
 
-    [HttpPost("register")]
+    [HttpPost]
+    [Route("Register")]
     public IActionResult Register(string nif)
     {
         var userData = _userService.GetDigitalKey(nif);
@@ -24,19 +28,22 @@ public class UserCreditController : ControllerBase
         return Ok("Utilizador registado com sucesso.");
     }
 
-    [HttpPost("request-micro-credit")]
-    public IActionResult RequestMicroCredit(string nif, decimal montante, int prazo)
+    [HttpPost]
+    [Route("Request-Micro-Credit")]
+    public IActionResult RequestMicroCredit(User user)
     {
-        var userData = _microCreditService.GetCreditLimit(montante);
-        if (userData == null)
-            return BadRequest("Utilizador não encontrado.");
+        var creditLimit = _microCreditService.GetCreditLimit(user.Income);
+        bool approveCredit = _microCreditService.ApproveCredit(user);
 
-        //var limiteCredito = _creditLimitService.GetCreditLimit(userData.RendimentoMensal);
-        //var indiceRisco = _analiseRisco.CalcularIndiceRisco(0.05M, 0.03M, 700, 2000);
+        var result = new RequestMicroCreditResult
+        {
+            Aprroved = approveCredit,
+            CreditLimit = creditLimit 
+        };
 
-        //if (!_analiseRisco.AprovarCredito(indiceRisco, limiteCredito))
-        //    return BadRequest("Crédito não aprovado devido a alto risco.");
+        if (!approveCredit)
+            return BadRequest("Crédito não aprovado devido a alto risco.");
 
-        return Ok("Crédito aprovado com sucesso.");
+        return Ok(result);
     }
 }

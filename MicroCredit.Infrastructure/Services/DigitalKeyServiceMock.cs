@@ -19,7 +19,7 @@ namespace MicroCredit.Infrastructure.Services
                 Nome = "Zé Manel",
                 NIF = nif,
                 Morada = "Rua Exemplo",
-                RendimentoMensal = 3000
+                Income = 2000
             };
         }
     }
